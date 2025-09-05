@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "qatar-payroll-system"
+  },
+  "targets": {
+    "qatar-payroll-system": {
+      "hosting": {
+        "production": [
+          "qatar-payroll-system"
+        ]
+      }
+    }
+  }
+}

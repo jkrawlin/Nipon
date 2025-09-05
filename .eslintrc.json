@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/prop-types": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks"
+  ]
+}
