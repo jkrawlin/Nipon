@@ -1,39 +1,94 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { ThemeProvider, CssBaseline, Box, AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import EmployeesSimple from './pages/EmployeesSimple';
+import CustomersSimple from './pages/CustomersSimple';
+import PayrollSimple from './pages/PayrollSimple';
+
+// Create a simple theme
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
+
+// Navigation component
+const Navigation = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navItems = [
+    { label: 'Dashboard', path: '/' },
+    { label: 'Employees', path: '/employees' },
+    { label: 'Customers', path: '/customers' },
+    { label: 'Payroll', path: '/payroll' },
+  ];
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Qatar Payroll System
+        </Typography>
+        {navItems.map((item) => (
+          <Button
+            key={item.path}
+            color="inherit"
+            onClick={() => navigate(item.path)}
+            variant={location.pathname === item.path ? 'outlined' : 'text'}
+            sx={{ ml: 1, color: 'white', borderColor: 'white' }}
+          >
+            {item.label}
+          </Button>
+        ))}
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+// Main layout component
+const Layout = ({ children }) => {
+  return (
+    <Box>
+      <Navigation />
+      <Container maxWidth="xl" sx={{ mt: 2 }}>
+        {children}
+      </Container>
+    </Box>
+  );
+};
 
 function App() {
   return (
-    <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ color: '#1976d2' }}>Qatar Payroll System</h1>
-      <p>Welcome to the Qatar Payroll Management Platform</p>
-      <p>The application is working! 🎉</p>
-      
-      <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-        <button style={{ padding: '10px 20px', backgroundColor: '#1976d2', color: 'white', border: 'none', borderRadius: '5px' }}>
-          Dashboard
-        </button>
-        <button style={{ padding: '10px 20px', backgroundColor: '#1976d2', color: 'white', border: 'none', borderRadius: '5px' }}>
-          Employees
-        </button>
-        <button style={{ padding: '10px 20px', backgroundColor: '#1976d2', color: 'white', border: 'none', borderRadius: '5px' }}>
-          Customers
-        </button>
-        <button style={{ padding: '10px 20px', backgroundColor: '#1976d2', color: 'white', border: 'none', borderRadius: '5px' }}>
-          Payroll
-        </button>
-      </div>
-      
-      <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '10px' }}>
-        <h3>Features:</h3>
-        <ul style={{ textAlign: 'left', maxWidth: '500px', margin: '0 auto' }}>
-          <li>Employee Management with Qatar ID/Passport tracking</li>
-          <li>Salary and Transaction Management</li>
-          <li>Document Expiry Notifications</li>
-          <li>Customer Database</li>
-          <li>Receipt Printing</li>
-          <li>Cash Flow Tracking</li>
-        </ul>
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/employees" element={<EmployeesSimple />} />
+                  <Route path="/customers" element={<CustomersSimple />} />
+                  <Route path="/payroll" element={<PayrollSimple />} />
+                </Routes>
+              </Layout>
+            }
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
