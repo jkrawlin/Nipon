@@ -14,8 +14,6 @@ import {
   Business as BusinessIcon,
   AttachMoney as MoneyIcon,
   Warning as WarningIcon,
-  TrendingUp as TrendingUpIcon,
-  AccountBalance as BalanceIcon,
 } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchDashboardStats } from '../store/slices/dashboardSlice';
