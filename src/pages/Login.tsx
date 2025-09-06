@@ -17,35 +17,46 @@ import {
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { loginUser, clearError } from '../store/slices/authSlice';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
-  const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector(state => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
-      await dispatch(loginUser({ email, password }));
+    setError('');
+    setLoading(true);
+
+    // Simple validation
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setLoading(false);
+      return;
     }
+
+    // Simulate login
+    setTimeout(() => {
+      console.log('Login attempt:', { email });
+      setLoading(false);
+      // For demo purposes, show success message
+      alert('Login functionality will be implemented with Firebase authentication');
+    }, 1000);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (error) {
-      dispatch(clearError());
+      setError('');
     }
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (error) {
-      dispatch(clearError());
+      setError('');
     }
   };
 

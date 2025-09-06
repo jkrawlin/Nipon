@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Grid,
@@ -7,7 +7,6 @@ import {
   Typography,
   Avatar,
   Chip,
-  LinearProgress,
 } from '@mui/material';
 import {
   People as PeopleIcon,
@@ -15,8 +14,6 @@ import {
   AttachMoney as MoneyIcon,
   Warning as WarningIcon,
 } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { fetchDashboardStats } from '../store/slices/dashboardSlice';
 
 interface StatCardProps {
   title: string;
@@ -58,26 +55,35 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color, subtitle
 };
 
 const Dashboard: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { stats, loading } = useAppSelector(state => state.dashboard);
-
-  useEffect(() => {
-    dispatch(fetchDashboardStats());
-  }, [dispatch]);
-
-  if (loading || !stats) {
-    return (
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress />
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Loading dashboard data...
-        </Typography>
-      </Box>
-    );
-  }
+  // Demo data instead of fetching from Redux/Firebase
+  const stats = {
+    employees: {
+      total: 25,
+      active: 23,
+      terminated: 2,
+      documentsExpiringSoon: 3,
+    },
+    customers: {
+      total: 15,
+      active: 12,
+      outstandingInvoices: 4,
+      totalOutstanding: 45000,
+    },
+    payroll: {
+      monthlyTotal: 375000,
+      pendingPayments: 2,
+      advancesOutstanding: 25000,
+    },
+    cashFlow: {
+      currentBalance: 125000,
+      monthlyInflow: 400000,
+      monthlyOutflow: 275000,
+      projectedBalance: 250000,
+    },
+  };
 
   return (
-    <Box>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Dashboard Overview
       </Typography>
@@ -210,14 +216,6 @@ const Dashboard: React.FC = () => {
                     sx={{ mb: 1 }}
                   />
                 </Box>
-              )}
-
-              {stats.employees.documentsExpiringSoon === 0 && 
-               stats.payroll.pendingPayments === 0 && 
-               stats.customers.outstandingInvoices === 0 && (
-                <Typography variant="body2" color="text.secondary">
-                  No alerts at this time
-                </Typography>
               )}
             </CardContent>
           </Card>
